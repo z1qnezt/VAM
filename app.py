@@ -1,5 +1,3 @@
-# Голосовой ассистент для компьютера VAM
-
 from vosk import Model, KaldiRecognizer
 from googlesearch import search
 from pyowm import OWM
@@ -167,13 +165,13 @@ def search_for_term_on_google(*args: tuple):
 
     search_results = []
     try:
-        for _ in search(search_term,  # что искать
-                        tld="com",  # верхнеуровневый домен
-                        lang=assistant.speech_language,  # используется язык, на котором говорит ассистент
-                        num=1,  # количество результатов на странице
-                        start=0,  # индекс первого извлекаемого результата
-                        stop=1,  # индекс последнего извлекаемого результата (я хочу, чтобы открывался первый результат)
-                        pause=1.0,  # задержка между HTTP-запросами
+        for _ in search(search_term,  
+                        tld="com",  
+                        lang=assistant.speech_language, 
+                        num=1, 
+                        start=0,  
+                        stop=1,  
+                        pause=1.0, 
                         ):
             search_results.append(_)
             webbrowser.get().open(_)
@@ -234,9 +232,9 @@ def get_translation(*args: tuple):
     old_assistant_language = assistant.speech_language
     try:
         if assistant.speech_language != person.native_language:
-            translation_result = google_translator.translate(search_term,  # что перевести
-                                                      src=person.target_language,  # с какого языка
-                                                      dest=person.native_language)  # на какой язык
+            translation_result = google_translator.translate(search_term,  
+                                                      src=person.target_language,  
+                                                      dest=person.native_language)  
 
             play_voice_assistant_speech("The translation for {} in Russian is".format(search_term))
 
@@ -244,9 +242,9 @@ def get_translation(*args: tuple):
             setup_assistant_voice()
 
         else:
-            translation_result = google_translator.translate(search_term,  # что перевести
-                                                      src=person.native_language,  # с какого языка
-                                                      dest=person.target_language)  # на какой язык
+            translation_result = google_translator.translate(search_term,  
+                                                      src=person.native_language, 
+                                                      dest=person.target_language)  
             play_voice_assistant_speech("По-английски {} будет как".format(search_term))
 
             assistant.speech_language = person.target_language
