@@ -57,14 +57,11 @@ def setup_assistant_voice():
     if assistant.speech_language == "en":
         assistant.recognition_language = "en-US"
         if assistant.sex == "female":
-            # Microsoft Zira Desktop - English (United States)
             ttsEngine.setProperty("voice", voices[0].id)
         else:
-            # Microsoft David Desktop - English (United States)
             ttsEngine.setProperty("voice", voices[2].id)
     else:
         assistant.recognition_language = "ru-RU"
-        # Microsoft Irina Desktop - Russian
         ttsEngine.setProperty("voice", voices[1].id)
 
 
@@ -92,8 +89,8 @@ def record_and_recognize_audio(*args: tuple):
             recognized_data = recognizer.recognize_google(audio, language=assistant.recognition_language).lower()
 
         except speech_recognition.UnknownValueError:
-            pass  # play_voice_assistant_speech("What did you say again?")
-
+            pass
+        
         except speech_recognition.RequestError:
             print(colored("Trying to use offline recognition...", "cyan"))
             recognized_data = use_offline_recognition()
@@ -327,24 +324,12 @@ def run_person_through_social_nets_databases(*args: tuple):
 
     play_voice_assistant_speech(translator.get("Here is what I found for {} on social nets").format(google_search_term))
 
-
-def toss_coin(*args: tuple):
-    flips_count, heads, tails = 3, 0, 0
-    for flip in range(flips_count):
-        if random.randint(0, 1) == 0:
-            heads += 1
-
-    tails = flips_count - heads
-    winner = "Tails" if tails > heads else "Heads"
-    play_voice_assistant_speech(translator.get(winner) + " " + translator.get("won"))
-
-
 def execute_command_with_name(command_name: str, *args: list):
     for key in commands.keys():
         if command_name in key:
             commands[key](*args)
         else:
-            pass  # print("Command not found")
+            pass 
 
 
 
@@ -358,7 +343,6 @@ commands = {
     ("language", "язык"): change_language,
     ("weather", "forecast", "погода", "прогноз"): get_weather_forecast,
     ("facebook", "person", "run", "пробей", "контакт"): run_person_through_social_nets_databases,
-    ("toss", "coin", "монета", "подбрось"): toss_coin,
 }
 
 if __name__ == "__main__":
